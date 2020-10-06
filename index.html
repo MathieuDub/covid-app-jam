@@ -6,6 +6,7 @@
     <title>API Covid</title>
     <link rel="stylesheet" href="">
     <script src="" charset="utf-8"></script>
+    <!-- A mettre dans style css -->
     <style>
         #map {
             max-width: 100%;
@@ -30,9 +31,19 @@
             stroke: #ccc;
             fill: none;
         }
+
+
     </style>
 </head>
 <body>
+
+
+<!--
+<div id="tip"> </div>
+<div id="cmap"></div>
+<script type="text/javascript" src="cmap/France.js"></script>
+<script type="text/javascript" src="cmap/cmap.js"></script>
+-->
 
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg id="map" width="492px" height="543px" viewBox="0 0 492 543" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
@@ -159,6 +170,13 @@
 
     });
 
+    map = document.getElementById('map');
+    paths = map.getElementsByTagName('path');
+
+    for (var i = 0; i < paths.length; i++) {
+            console.log(paths[i].getAttribute('data-num'));
+            paths[i].style.fill = "rgb(calc(1*"+i+"),0.3,0.6)";
+    }
 </script>
 
 

@@ -136,6 +136,144 @@
 
 <script>
 
+
+    document.addEventListener('DOMContentLoaded', function(){
+        map = this.getElementById('map');
+        paths = map.getElementsByTagName('path');
+        for (var i = 0; i < paths.length; i++) {
+            paths[i].addEventListener("click", function(e){
+
+                request.open('GET', 'https://geo.api.gouv.fr/departements?code='+e.target.getAttribute("data-num"), true)
+
+                request.onload = function () {
+                    var data = JSON.parse(this.response)
+
+                    //console.log(data[0]["nom"]);
+                    request.open('GET', 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement='+data[0]["nom"], true)
+                    request.onload = function () {
+                        var data = JSON.parse(this.response)
+
+                        map = document.getElementById('map');
+                        paths = map.getElementsByTagName('path');
+                        console.log(data);
+                    }
+                    request.send();
+
+                }
+                // Send request
+                request.send();
+            })
+        }
+
+    });
+
+</script>
+
+</html>
+
+<script>
+
+
+
+    var deces_tot;
+    var cas_confirme;
+    var reanimation;
+    var gueris;
+    var decesEhpad;
+    var casEhpad;
+
+    var request = new XMLHttpRequest()
+
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', 'https://coronavirusapi-france.now.sh/FranceLiveGlobalData', false)
+
+    request.onload = function () {
+        var data = JSON.parse(this.response)
+
+
+        //console.log(data)
+
+        deces_tot = data.FranceGlobalLiveData[0]["deces"];
+        cas_confirme = data.FranceGlobalLiveData[0]["casConfirmes"];
+        reanimation = data.FranceGlobalLiveData[0]["reanimation"];
+        gueris = data.FranceGlobalLiveData[0]["gueris"];
+        decesEhpad = data.FranceGlobalLiveData[0]["decesEhpad"];
+        casEhpad = data.FranceGlobalLiveData[0]["casEhpad"];
+
+
+        console.log(deces_tot)
+        console.log(cas_confirme)
+        console.log(reanimation)
+        console.log(gueris)
+        console.log(decesEhpad)
+        console.log(casEhpad)
+
+
+        //console.log("deceeeeees: "+deces_tot);
+    }
+    // Send request
+    request.send();
+
+
+    request.open('GET', 'https://coronavirusapi-france.now.sh/AllLiveData', false)
+
+    request.onload = function () {
+        var data = JSON.parse(this.response)
+
+        console.log(data)
+        data.allLiveFranceData.forEach((dep) => {
+
+            map = document.getElementById('map');
+            paths = map.getElementsByTagName('path');
+
+            var dep_num = dep.code.split("-")[1];
+            //console.log(dep_num);
+            //console.log(dep.deces)
+
+            for (var i = 0; i < paths.length; i++) {
+                //console.log(paths[i].getAttribute('data-num'));
+                if(dep_num == paths[i].getAttribute('data-num')){
+
+                    if(dep.deces < 50 ) {
+                        paths[i].style.fill = "#709f1a";
+                    }else if(dep.deces < 100 ){
+                        paths[i].style.fill = "#64e746";
+                    }else if(dep.deces < 200 ){
+                        paths[i].style.fill = "#75913e";
+                    }else if(dep.deces < 300 ){
+                        paths[i].style.fill = "#F9D400";
+                    }else if(dep.deces < 400 ){
+                        paths[i].style.fill = "#F4AB00";
+                    }else if(dep.deces < 500 ){
+                        paths[i].style.fill = "#F49200";
+                    }else if(dep.deces < 600 ){
+                        paths[i].style.fill = "#F46100";
+                    }else if(dep.deces < 700 ){
+                        paths[i].style.fill = "#F43000";
+                    }else if(dep.deces < 800 ){
+                        paths[i].style.fill = "#F40C00";
+                    }else{
+                        paths[i].style.fill = "red";
+                    }
+                }
+            }
+
+        });
+        /*
+        data.forEach((movie) => {
+            // Log each movie's title
+
+        */
+
+    }
+
+    // Send request
+    request.send();
+
+
+
+
+    /*
     document.addEventListener('DOMContentLoaded', function(){
         map = this.getElementById('map');
         paths = map.getElementsByTagName('path');
@@ -147,6 +285,7 @@
         }
 
     });
+    */
 
     navigator.geolocation.getCurrentPosition(function(pos) {
         console.log(pos.coords.latitude);
@@ -154,14 +293,15 @@
         console.log(pos.coords.altitude)
     });
 
+    /*
     map = document.getElementById('map');
     paths = map.getElementsByTagName('path');
 
     for (var i = 0; i < paths.length; i++) {
-            console.log(paths[i].getAttribute('data-num'));
-            paths[i].style.fill = "rgb(calc(1*"+i+"),0.3,0.6)";
+        console.log(paths[i].getAttribute('data-num'));
+        paths[i].style.fill = "rgb(calc(1*"+i+"),0.3,0.6)";
     }
-
+    */
 
 </script>
 

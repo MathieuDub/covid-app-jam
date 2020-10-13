@@ -12,7 +12,7 @@
 
 <body>
     <section class="card">
-        <article id="globs" class="card-body">
+        <article id="globs"class="card-body">
             <div class="row" style="margin-left: auto; margin-right: auto; justify-content: center">
                 <div class="mr-2 mt-2">
                     <span id="glob-badge-newhospi" class="badge badge-danger w-100"></span>
@@ -43,7 +43,9 @@
             </div>
         </article>
     </section>
-
+    <div id="rip">
+    <div><img src="../style/rip.jpg" width="0px" height="0px" alt=""/></div>
+    </div>
 <section class="row">
     <!--        <article class="col-3">-->
     <!--            <p class="text-center">Filtres</p>-->
@@ -160,8 +162,8 @@
     </article>
 </section>
 
-<section>
-    <article id="stats">
+<section class="card">
+    <article id="stats" class="card-body">
         <h3 class="text-center" id="stats-dep"></h3>
         <div class="row" style="margin-left: auto; margin-right: auto; justify-content: center">
             <div class="mr-2 mt-2">
@@ -209,8 +211,12 @@
     document.addEventListener('DOMContentLoaded', function(){
         map = this.getElementById('map');
         paths = map.getElementsByTagName('path');
+
         for (var i = 0; i < paths.length; i++) {
             paths[i].addEventListener("click", function(e){
+
+                var rip = document.getElementById("rip");
+                rip.setAttribute("class","slide");
 
                 request.open('GET', 'https://geo.api.gouv.fr/departements?code='+e.target.getAttribute("data-num"), true)
 
@@ -240,9 +246,12 @@
 
                         document.getElementById('stat-rea').textContent = 'Reanimation(s)';
                         document.getElementById('stat-badge-rea').textContent = data.LiveDataByDepartement[0]["reanimation"];
+                        rip.style = "margin-left: 0% !important;";
+                        rip.classList.remove("slide");
                     }
                     request.send();
                 }
+
                 request.send();
             })
         }

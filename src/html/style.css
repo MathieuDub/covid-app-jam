@@ -1,6 +1,8 @@
 /* General Demo Style */
 body {
 	overflow-x: hidden !important;
+	background-image: url('../style/covid19_actu.jpg');
+	background-repeat: unset;
 }
 #tip {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -54,7 +56,22 @@ h2 {
 }
 
 .card {
-	width: 50% !important;
-	margin-left: auto;
-	margin-right: auto;
+	width: fit-content !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	background-color: rgba(0,0,100,0.2) !important;
+}
+
+.slide div img {
+	z-index: 999;
+	position: absolute;
+	width: 200px !important;
+	height: 200px !important;
+	margin-left: 20px !important;
+	-webkit-transition: .6s linear !important;
+	transition: .6s linear margin-left !important;
+}
+
+.slide div img {
+	margin-left: 100% !important;
 }

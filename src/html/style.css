@@ -22,8 +22,8 @@ body {
 	transition: fill 0.2s, stroke 0.3s;
 }
 #map path:hover {
-	fill: red;
-	stroke: red;
+	fill: blue;
+	stroke: blue;
 }
 #map .separator {
 	stroke: #ccc;
@@ -33,4 +33,20 @@ body {
 #map .separator:hover {
 	stroke: #ccc;
 	fill: none;
+}
+
+#stats-dep {
+	font-weight: bold;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+h3 {
+	font-size: 10px !important;
+	font-weight: bold !important;
+}
+
+.badge {
+	font-size: 150% !important;
+	color: white !important;
 }

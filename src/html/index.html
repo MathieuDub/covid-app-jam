@@ -310,10 +310,10 @@
         console.log(data)
         data.allLiveFranceData.forEach((dep) => {
 
-            map = document.getElementById('map');
-            paths = map.getElementsByTagName('path');
+             map = document.getElementById('map');
+             paths = map.getElementsByTagName('path');
 
-            var dep_num = dep.code.split("-")[1];
+            var dep_num = dep.code.split("DEP-")[1];
             //console.log(dep_num);
             //console.log(dep.deces)
 
@@ -321,36 +321,31 @@
                 //console.log(paths[i].getAttribute('data-num'));
                 if(dep_num == paths[i].getAttribute('data-num')){
 
-                    if(dep.deces < 50 ) {
+                    if(dep.deces <= 50) {
                         paths[i].style.fill = "#64e746";
-                    }else if(dep.deces < 100 ){
+                    }else if(dep.deces <= 100 ){
                         paths[i].style.fill = "#709f1a";
-                    }else if(dep.deces < 200 ){
+                    }else if(dep.deces <= 200 ){
                         paths[i].style.fill = "#637a35";
-                    }else if(dep.deces < 300 ){
+                    }else if(dep.deces <= 300 ){
                         paths[i].style.fill = "#F9D400";
-                    }else if(dep.deces < 400 ){
+                    }else if(dep.deces <= 400 ){
                         paths[i].style.fill = "#F4AB00";
-                    }else if(dep.deces < 500 ){
+                    }else if(dep.deces <= 500 ){
                         paths[i].style.fill = "#F49200";
-                    }else if(dep.deces < 600 ){
+                    }else if(dep.deces <= 600 ){
                         paths[i].style.fill = "#F46100";
-                    }else if(dep.deces < 700 ){
+                    }else if(dep.deces <= 700 ){
                         paths[i].style.fill = "#fa3e10";
-                    }else if(dep.deces < 800 ){
+                    }else if(dep.deces <= 800 ){
                         paths[i].style.fill = "#F40C00";
-                    }else{
+                    }else if(parseInt(dep.deces) > 800) {
                         paths[i].style.fill = "red";
                     }
                 }
             }
 
         });
-        /*
-        data.forEach((movie) => {
-            // Log each movie's title
-
-        */
 
     }
 

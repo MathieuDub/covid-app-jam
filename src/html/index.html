@@ -152,9 +152,6 @@
                     request.open('GET', 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement='+data[0]["nom"], true)
                     request.onload = function () {
                         var data = JSON.parse(this.response)
-
-                        map = document.getElementById('map');
-                        paths = map.getElementsByTagName('path');
                         console.log(data);
                     }
                     request.send();
@@ -176,11 +173,10 @@
 
 
     var deces_tot;
-    var cas_confirme;
+    var hospitalises;
     var reanimation;
     var gueris;
-    var decesEhpad;
-    var casEhpad;
+    var nouvellesReanimations;
 
     var request = new XMLHttpRequest()
 
@@ -191,23 +187,20 @@
         var data = JSON.parse(this.response)
 
 
-        //console.log(data)
+        console.log(data)
 
         deces_tot = data.FranceGlobalLiveData[0]["deces"];
-        cas_confirme = data.FranceGlobalLiveData[0]["casConfirmes"];
+        hospitalises = data.FranceGlobalLiveData[0]["hospitalises"];
         reanimation = data.FranceGlobalLiveData[0]["reanimation"];
         gueris = data.FranceGlobalLiveData[0]["gueris"];
-        decesEhpad = data.FranceGlobalLiveData[0]["decesEhpad"];
-        casEhpad = data.FranceGlobalLiveData[0]["casEhpad"];
+        nouvellesReanimations = data.FranceGlobalLiveData[0]["nouvellesReanimations"];
 
 
         console.log(deces_tot)
-        console.log(cas_confirme)
+        console.log(hospitalises)
         console.log(reanimation)
         console.log(gueris)
-        console.log(decesEhpad)
-        console.log(casEhpad)
-
+        console.log(nouvellesReanimations)
 
         //console.log("deceeeeees: "+deces_tot);
     }
@@ -220,7 +213,7 @@
     request.onload = function () {
         var data = JSON.parse(this.response)
 
-        console.log(data)
+        //console.log(data)
         data.allLiveFranceData.forEach((dep) => {
 
             map = document.getElementById('map');
@@ -235,11 +228,11 @@
                 if(dep_num == paths[i].getAttribute('data-num')){
 
                     if(dep.deces < 50 ) {
-                        paths[i].style.fill = "#709f1a";
-                    }else if(dep.deces < 100 ){
                         paths[i].style.fill = "#64e746";
+                    }else if(dep.deces < 100 ){
+                        paths[i].style.fill = "#709f1a";
                     }else if(dep.deces < 200 ){
-                        paths[i].style.fill = "#75913e";
+                        paths[i].style.fill = "#637a35";
                     }else if(dep.deces < 300 ){
                         paths[i].style.fill = "#F9D400";
                     }else if(dep.deces < 400 ){
@@ -249,7 +242,7 @@
                     }else if(dep.deces < 600 ){
                         paths[i].style.fill = "#F46100";
                     }else if(dep.deces < 700 ){
-                        paths[i].style.fill = "#F43000";
+                        paths[i].style.fill = "#fa3e10";
                     }else if(dep.deces < 800 ){
                         paths[i].style.fill = "#F40C00";
                     }else{
@@ -259,6 +252,7 @@
             }
 
         });
+
         /*
         data.forEach((movie) => {
             // Log each movie's title
@@ -269,72 +263,31 @@
 
     // Send request
     request.send();
-
-
-
-
-    /*
-    document.addEventListener('DOMContentLoaded', function(){
-        map = this.getElementById('map');
-        paths = map.getElementsByTagName('path');
-
-        for (var i = 0; i < paths.length; i++) {
-            paths[i].addEventListener("click", function(e){
-                console.log("Dpt: "+e.target.getAttribute('data-num'));
-            })
-        }
-
-    });
-    */
 
     navigator.geolocation.getCurrentPosition(function(pos) {
-        console.log(pos.coords.latitude);
-        console.log(pos.coords.longitude);
-        console.log(pos.coords.altitude)
+
+
+        request.open('GET','https://api-adresse.data.gouv.fr/reverse/?lon='+pos.coords.longitude+'&lat='+pos.coords.latitude, false);
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+
+            var contexts = data.features[0]["properties"]["context"];
+            contexts = contexts.split(',');
+
+            contexts = contexts[1].split(" ")[1];
+
+            request.open('GET', 'https://coronavirusapi-france.now.sh/LiveDataByDepartement?Departement='+contexts, true)
+            request.onload = function () {
+                var data = JSON.parse(this.response)
+                console.log(data);
+            }
+            request.send();
+        }
+        request.send();
+
+
     });
 
-    /*
-    map = document.getElementById('map');
-    paths = map.getElementsByTagName('path');
 
-    for (var i = 0; i < paths.length; i++) {
-        console.log(paths[i].getAttribute('data-num'));
-        paths[i].style.fill = "rgb(calc(1*"+i+"),0.3,0.6)";
-    }
-    */
 
 </script>
-
-
-<!--
-<body>
-lala
-</body>
-</html>
-<script>
-
-
-
-    var request = new XMLHttpRequest()
-
-    // Open a new connection, using the GET request on the URL endpoint
-    request.open('GET', 'https://coronavirusapi-france.now.sh/FranceLiveGlobalData', true)
-
-    request.onload = function () {
-        var data = JSON.parse(this.response)
-
-        console.log(data)
-        /*
-        data.forEach((movie) => {
-            // Log each movie's title
-            console.log(movie.title)
-        })
-        */
-
-    }
-
-    // Send request
-    request.send();
-
-</script>
--->
